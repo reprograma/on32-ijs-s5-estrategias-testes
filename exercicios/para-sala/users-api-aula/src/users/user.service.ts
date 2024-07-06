@@ -8,78 +8,68 @@ export class UserService {
 
   createUser(name: string, email: string, password: string, cpf: string): User {
     UserValidator.verifyEmail(email);
+    UserValidator.verifyPassword(password);
+    UserValidator.checkEmailAlreadyInUse(this.users, email);
 
-    if (
-      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-        password,
-      )
-    ) {
-      throw new Error('Invalid password');
+    if (this.users.some((user) => user.cpf === cpf)) {
+      throw new Error('CPF already in use');
     } else {
-      if (this.users.some((user) => user.email === email)) {
-        throw new Error('Email already in use');
+      if (!/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/.test(cpf)) {
+        throw new Error('Invalid CPF');
       } else {
-        if (this.users.some((user) => user.cpf === cpf)) {
-          throw new Error('CPF already in use');
+        const cpfWithoutDots = cpf.replace(/[^\d]+/g, '');
+        if (cpfWithoutDots.length !== 11) {
+          throw new Error('Invalid CPF');
         } else {
-          if (!/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/.test(cpf)) {
+          // Elimina CPFs conhecidos que são inválidos
+          if (
+            cpfWithoutDots === '00000000000' ||
+            cpfWithoutDots === '11111111111' ||
+            cpfWithoutDots === '22222222222' ||
+            cpfWithoutDots === '33333333333' ||
+            cpfWithoutDots === '44444444444' ||
+            cpfWithoutDots === '55555555555' ||
+            cpfWithoutDots === '66666666666' ||
+            cpfWithoutDots === '77777777777' ||
+            cpfWithoutDots === '88888888888' ||
+            cpfWithoutDots === '99999999999'
+          ) {
             throw new Error('Invalid CPF');
-          } else {
-            const cpfWithoutDots = cpf.replace(/[^\d]+/g, '');
-            if (cpfWithoutDots.length !== 11) {
-              throw new Error('Invalid CPF');
-            } else {
-              // Elimina CPFs conhecidos que são inválidos
-              if (
-                cpfWithoutDots === '00000000000' ||
-                cpfWithoutDots === '11111111111' ||
-                cpfWithoutDots === '22222222222' ||
-                cpfWithoutDots === '33333333333' ||
-                cpfWithoutDots === '44444444444' ||
-                cpfWithoutDots === '55555555555' ||
-                cpfWithoutDots === '66666666666' ||
-                cpfWithoutDots === '77777777777' ||
-                cpfWithoutDots === '88888888888' ||
-                cpfWithoutDots === '99999999999'
-              ) {
-                throw new Error('Invalid CPF');
-              }
+          }
 
-              let sum = 0;
-              let remainder;
+          let sum = 0;
+          let remainder;
 
-              // Calcula o primeiro dígito verificador
-              for (let i = 1; i <= 9; i++) {
-                sum += parseInt(cpfWithoutDots.substring(i - 1, i)) * (11 - i);
-              }
+          // Calcula o primeiro dígito verificador
+          for (let i = 1; i <= 9; i++) {
+            sum += parseInt(cpfWithoutDots.substring(i - 1, i)) * (11 - i);
+          }
 
-              remainder = (sum * 10) % 11;
+          remainder = (sum * 10) % 11;
 
-              if (remainder === 10 || remainder === 11) {
-                remainder = 0;
-              }
+          if (remainder === 10 || remainder === 11) {
+            remainder = 0;
+          }
 
-              if (remainder !== parseInt(cpfWithoutDots.substring(9, 10))) {
-                throw new Error('Invalid CPF');
-              }
+          if (remainder !== parseInt(cpfWithoutDots.substring(9, 10))) {
+            throw new Error('Invalid CPF');
+          }
 
-              sum = 0;
+          sum = 0;
 
-              // Calcula o segundo dígito verificador
-              for (let i = 1; i <= 10; i++) {
-                sum += parseInt(cpfWithoutDots.substring(i - 1, i)) * (12 - i);
-              }
+          // Calcula o segundo dígito verificador
+          for (let i = 1; i <= 10; i++) {
+            sum += parseInt(cpfWithoutDots.substring(i - 1, i)) * (12 - i);
+          }
 
-              remainder = (sum * 10) % 11;
+          remainder = (sum * 10) % 11;
 
-              if (remainder === 10 || remainder === 11) {
-                remainder = 0;
-              }
+          if (remainder === 10 || remainder === 11) {
+            remainder = 0;
+          }
 
-              if (remainder !== parseInt(cpfWithoutDots.substring(10, 11))) {
-                throw new Error('Invalid CPF');
-              }
-            }
+          if (remainder !== parseInt(cpfWithoutDots.substring(10, 11))) {
+            throw new Error('Invalid CPF');
           }
         }
       }
