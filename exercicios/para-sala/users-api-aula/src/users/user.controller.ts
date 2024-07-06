@@ -7,6 +7,7 @@ import {
   Body,
   Param,
   BadRequestException,
+  NotFoundException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
@@ -35,7 +36,11 @@ export class UserController {
 
   @Get(':id')
   getUserById(@Param('id') id: string) {
-    return this.userService.getUserById(id);
+    try {
+      return this.userService.getUserById(id);
+    } catch (error) {
+      throw new NotFoundException({ error: error.message });
+    }
   }
 
   @Get()

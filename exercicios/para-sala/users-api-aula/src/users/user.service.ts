@@ -69,7 +69,13 @@ export class UserService {
   }
 
   getUserById(id: string): User {
-    return this.users.find((user) => user.id === id);
+    const user = this.users.find((user) => user.id === id);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user;
   }
 
   listUsers(): User[] {
