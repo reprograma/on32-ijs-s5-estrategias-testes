@@ -67,9 +67,5 @@ describe('Create User', () => {
     await expect(
       userService.createUser(name, email, password, cpf),
     ).rejects.toThrow('Invalid password');
-
-    // expect(
-    //   async () => await userService.createUser(name, email, password, cpf),
-    // ).toThrow('Invalid password');
   });
 });

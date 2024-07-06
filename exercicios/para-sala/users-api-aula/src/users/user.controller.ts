@@ -26,6 +26,7 @@ export class UserController {
         createUserDto.email,
         createUserDto.password,
         createUserDto.cpf,
+        createUserDto.zipCode,
       );
     } catch (error) {
       throw new BadRequestException({ error: error.message });
