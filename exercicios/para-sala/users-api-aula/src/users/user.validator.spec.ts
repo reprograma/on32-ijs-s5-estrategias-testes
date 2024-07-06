@@ -122,3 +122,25 @@ describe('Valida CPF em uso', () => {
     expect(UserValidator.checkCpfAlreadyInUse(users, cpf)).toBe(true);
   });
 });
+
+describe('Valida CPF', () => {
+  test('Deve retornar error quando o CPF não está no padrão esperado', () => {
+    const cpf = '292.311.810-3';
+    expect(() => UserValidator.verifyCpf(cpf)).toThrow('Invalid CPF');
+  });
+
+  test('Deve retornar error quando o CPF é inválid (111.111.111-11)', () => {
+    const cpf = '111.111.111-11';
+    expect(() => UserValidator.verifyCpf(cpf)).toThrow('Invalid CPF');
+  });
+
+  test('Deve retornar error quando o CPF é inválid (292.311.810-31)', () => {
+    const cpf = '292.311.810-31';
+    expect(() => UserValidator.verifyCpf(cpf)).toThrow('Invalid CPF');
+  });
+
+  test('Deve retornar true quando o CPF está no padrão esperado', () => {
+    const cpf = '292.311.810-33';
+    expect(UserValidator.verifyCpf(cpf)).toBe(true);
+  });
+});
