@@ -86,3 +86,39 @@ describe('Valida se o email já está em uso', () => {
     expect(UserValidator.checkEmailAlreadyInUse(users, email)).toBe(true);
   });
 });
+
+describe('Valida CPF em uso', () => {
+  test('Deve retornar error quando CPF já está em uso', () => {
+    const cpf = '558.912.480-85';
+    const users = [
+      {
+        cpf,
+        email: 'lais.frigerio@gmail.com',
+        name: 'Lais',
+        password: 'T3st@123!',
+      },
+    ];
+    expect(() => UserValidator.checkCpfAlreadyInUse(users, cpf)).toThrow(
+      'CPF already in use',
+    );
+  });
+
+  test('Deve retornar true quando CPF não está em uso (lista de usuarios vazia)', () => {
+    const cpf = '558.912.480-85';
+    const users = [];
+    expect(UserValidator.checkCpfAlreadyInUse(users, cpf)).toBe(true);
+  });
+
+  test('Deve retornar true quando CPF não está em uso (lista de usuarios não vazia)', () => {
+    const cpf = '558.912.480-85';
+    const users = [
+      {
+        cpf: '111.701.690-07',
+        email: 'lais.frigerio@gmail.com',
+        name: 'Lais',
+        password: 'T3st@123!',
+      },
+    ];
+    expect(UserValidator.checkCpfAlreadyInUse(users, cpf)).toBe(true);
+  });
+});
