@@ -1,12 +1,13 @@
 import fetch from 'node-fetch';
 import { ViaCepValidator } from './via-cep.validator';
 import { ViaCepadapter } from './via-cep.adapter';
+import { Address } from 'src/address/address.entity';
 
 export class ViaCepService {
   public static ERROR_CEP_NOT_FOUND: string = 'ZipCode not found';
   public static ERROR_UNEXPECTED: string = 'Error in request to ViaCEP';
 
-  static async getAddress(zipCode: string) {
+  static async getAddress(zipCode: string): Promise<Address> {
     const zipCodeAdapted = zipCode?.toString().replace(/\D+/g, '');
     ViaCepValidator.cepHasMinCharacters(zipCodeAdapted);
 

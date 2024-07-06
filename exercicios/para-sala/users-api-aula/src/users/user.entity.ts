@@ -1,14 +1,4 @@
-export class Address {
-  id?: string;
-  street: string;
-  number: string;
-  complement?: string;
-  neighborhood: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  coumtry: string;
-}
+import { Address } from 'src/address/address.entity';
 
 export class User {
   constructor(
