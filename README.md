@@ -55,16 +55,24 @@ O que veremos na aula de hoje?
 
 - [Conteúdo](#conteúdo)
 
+  - [Objetivos de Aprendizagem](./material/1-objetivos-aprendizgem.md)
+  - [Estratégias de testes](./material/2-estrategias-testes.md)
+  - [Ferramentas de testes](./material/3-ferramentas-testes.md)
+  - [Pirâmide de Testes](./material/4-piramide-testes.md)
+  - [Testes de Unidade](./material/6-testes-unidade.md)
+  - [Testes de Integração](./material/7-testes-integracao.md)
+  - [Testes E2E](./material/8-testes-e2e.md)
+  - [Links Úteis](./material/9-links-uteis.md)
+
 ---
 
 ### Exercícios
 
-- [Exercicio para sala](/exercicios/para-sala/)
-- [Exercicio para casa](/exercicios/para-casa/)
+- [Exercicio em sala](/exercicios/para-sala/)
 
 ### Material da aula
 
-- [Material](/material)
+- [Material](./material)
 
 <p align="center">
 Desenvolvido com :purple_heart: por laisfrigerio
